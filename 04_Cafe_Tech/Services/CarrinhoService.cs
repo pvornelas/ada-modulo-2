@@ -10,19 +10,18 @@ public class CarrinhoService
     }
 
     public void AdicionarPreco(decimal preco) => _precos.Add(preco);
-    public bool TemItens() => _precos.Count > 0;
-    public int QuantidadeItens() => _precos.Count();
-    public decimal TotalBruto() => _precos.Sum();
-    public decimal AplicarDesconto(decimal total) => total > 50m ? total * 0.9m : total;
-
+    public bool TemItens() => _precos.Count > 0;    
     public void ExibirResumo()
     {
+        var qtdItens = _precos.Count;
+        var totalBruto = _precos.Sum();
+        Func<decimal, decimal> aplicarDesconto = total => total > 50m ? total * 0.9m : total;
+
         Console.WriteLine("==== Resumo do Pedido ==== ");
-        Console.WriteLine($"Quantidade de itens: {QuantidadeItens()}");
-        decimal totalBruto = TotalBruto();
+        Console.WriteLine($"Quantidade de itens: {qtdItens}");
         Console.WriteLine($"Valor Total: {totalBruto:C2}");
 
-        decimal totalComDesconto = AplicarDesconto(totalBruto);
+        decimal totalComDesconto = aplicarDesconto(totalBruto);
         if(totalComDesconto < totalBruto)
         {
             Console.WriteLine($"Total com desconto de 10%: {totalComDesconto:C2}");
